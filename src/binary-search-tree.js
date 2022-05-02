@@ -15,106 +15,105 @@ class Node {
   }
 }
 class BinarySearchTree {
-   constructor() {
+  constructor() {
     this.root = null;
   }
   root() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    return this.tree;
   }
 
-  add(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  add(data) {
+    if (data < this.data && this.left) {
+      this.left.insert(data);
+    } else if (data < this.data) {
+      this.left = new Node(data);
+    }
+
+    if (data > this.data && this.right) {
+      this.right.insert(data);
+    } else if (data > this.data) {
+      this.right = new Node(data);
+    }
   }
 
-  has(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  has(data) {
+    return this.find(data) !== null;
   }
 
-  find(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+  find(data) {
+    if (this.data === data) {
+      return this;
+    }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    if (data < this.data && this.left) {
+      return this.left.contains(data);
+    } else if (data > this.data && this.right) {
+      return this.right.contains(data);
+    } else {
+      return null;
+    }
   }
+  
 
-  min() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
-
-  max() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+  remove(data) {
+    this.root = this.removeNode(this.root, data); // helper method below
 }
+removeNode(node, data) {
+    if (node === null) {
+        return null;    
+    } else if (data < node.data) {
+        node.left = this.removeNode(node.left, data);
+        return node;    
+    } else if (data > node.data) {
+        node.right = this.removeNode(node.right, data);
+        return node;    
+    } else {        
+        if (node.left === null && node.right === null) {
+            node = null;
+            return node;
+        }        
+        if (node.left === null) {
+            node = node.right;
+            return node;
+        } else if(node.right === null) {
+            node = node.left;
+            return node;
+        }        
+        let newNode = this.minNode(node.right);
+        node.data = newNode.data;
+        node.right = this.removeNode(node.right, newNode.data);
+        return node;
+    }
+}
+
+min(root = this.tree) {
+  if (root === null) return null;
+  let min = root.data,
+      node = root;
+
+  while (node.left !== null) {
+      min = node.left.data;
+      node = node.left;
+  }
+
+  return min;
+}
+
+  max() {    
+      if (this.tree === null) return null;
+      let max = this.tree.data,
+          node = this.tree;
+      while (node.right !== null) {
+          max = node.right.data;
+          node = node.right;
+      }
+      return max; 
+}
+
+  }
+
 
 module.exports = {
   BinarySearchTree
 };
 
-/*
- insert(data) {
-    let newNode = new Node(data);
-    if (this.root === null) {
-      this.root = newNode;
-    } else {
-      this.insertNode(this.root, newNode); // helper method below
-    }
-  }
-  insertNode(node, newNode) {
-    if (newNode.data < node.data) {
-      if (node.left === null) {
-        node.left = newNode;
-      } else {
-        this.insertNode(node.left, newNode);
-      }
-    } else {
-      if (node.right === null) {
-        node.right = newNode;
-      } else {
-        this.insertNode(node.right, newNode);
-      }
-    }
-  }
-  //has
-  inOrderTraverse(node, callback){
-    if (node !=null){
-      this.inOrderTraverse(node.left, callback);
-      callback(node.data);
-      this.inOrderTraverse(node.right, callback);
-    }
-  }
-  
-search(node,data){
-  if (node === null){
-    return null;
-  } else if (data > node.data){
-    return this.search(node.right,data);
-  } else {
-    console.log(node)
-    return node;
-  }
-
-}
-
-}
-
-const BST = new BinarySearchTree();
-
-BST.insert(11); // establishes root node
-BST.insert(7);
-BST.insert(9);
-BST.insert(15);
-BST.insert(6);
-
-BST.search(BST.root, 9);
-
-
-console.log(BST);
-*/
