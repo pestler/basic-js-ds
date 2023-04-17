@@ -24,9 +24,8 @@ class Stack {
     return this.stack.pop();
   }
 
-  peek() {
-    const lastElement = this.stack.length;
-    return this.stack[lastElement - 1];
+  peek() {    
+     return this.arr[this.stack.length - 1];
   }
 }
 
